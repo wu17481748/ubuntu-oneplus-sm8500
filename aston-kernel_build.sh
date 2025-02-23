@@ -1,12 +1,12 @@
 cd $1
-git clone https://github.com/jiganomegsdfdf/aston-mainline.git --depth 1 linux --branch aston-$2
+git clone https://github.com/wu17481748/aston-mainline.git --depth 1 linux
 cd linux
 make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig sm8550.config
 make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 _kernel_version="$(make kernelrelease -s)"
 sed -i "s/Version:.*/Version: ${_kernel_version}/" $1/linux-oneplus-aston/DEBIAN/control
 
-cat $1/linux/arch/arm64/boot/Image $1/linux/arch/arm64/boot/dts/qcom/sm8550-oneplus-aston.dtb > $1/linux/Image_w_dtb
+cat $1/linux/arch/arm64/boot/Image $1/linux/arch/arm64/boot/dts/qcom/sm8550-oneplus-xigua.dtb > $1/linux/Image_w_dtb
 gzip Image_w_dtb
 chmod +x $1/mkbootimg
 $1/mkbootimg --header_version 4 --base 0x0 --kernel $1/linux/Image_w_dtb.gz -o $1/boot.img
