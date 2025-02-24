@@ -29,8 +29,8 @@ jobs:
              cd ${{ github.workspace }}
              rm -rf *dbg*
              mkdir boot
-             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ./boot/
-             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/Image.gz ./boot/
+             cp -a ./linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ./boot/
+             cp -a ./linux/arch/arm64/boot/Image.gz ./boot/
              rm -rf linux-upstream*
  
           
