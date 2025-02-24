@@ -29,7 +29,8 @@ jobs:
       - name: 开始编译内核
         run: |
              cd ${{ github.workspace }}/linux
-             make -j$(nproc) deb-pkg ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig sm8550.config
+             make -j$(nproc) ARCH=arm64 defconfig sm8550.config
+             make -j$(nproc) deb-pkg ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
              cd ..
              rm -rf *dbg*
              cp ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ${{ github.workspace }}/boot/
