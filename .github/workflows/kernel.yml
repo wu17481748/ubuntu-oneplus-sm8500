@@ -5,11 +5,6 @@ name: kernel
 on:
   repository_dispatch:
   workflow_dispatch:
-    inputs:
-      ssh:
-        description: 'SSH connection to Actions'
-        required: true
-        default: 'true'
         
 jobs:
 
@@ -33,8 +28,8 @@ jobs:
              make -j$(nproc) deb-pkg ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- 2> warnings.log
              cd ..
              rm -rf *dbg*
-             cp ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ${{ github.workspace }}/boot/
-             cp ${{ github.workspace }}/linux/arch/arm64/boot/Image.gz ${{ github.workspace }}/
+             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ${{ github.workspace }}/boot/
+             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/Image.gz ${{ github.workspace }}/
              rm -rf linux-upstream*
  
           
@@ -44,5 +39,5 @@ jobs:
         uses: actions/upload-artifact@v4.0.0
         with:
           # Artifact name
-          name: mainline-linux-内核安装包-deb
+          name: mainline-linux-kernel-deb
           path: ${{ github.workspace }}/*.deb
