@@ -24,7 +24,7 @@ jobs:
 
       - name: 下载内核源码
         run: |
-             git clone $ -b https://github.com/wu17481748/aston-mainline --depth 1 linux
+             git clone https://github.com/wu17481748/aston-mainline --depth 1 linux
              
       - name: 开始编译内核
         run: |
