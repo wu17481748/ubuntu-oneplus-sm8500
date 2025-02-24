@@ -1,0 +1,47 @@
+
+name: kernel
+
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: true
+        default: 'true'
+        
+jobs:
+
+  build-kernel:
+    runs-on: ubuntu-22.04
+  
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖环境
+        run: sudo apt update && sudo apt install build-essential gcc-aarch64-linux-gnu bc flex bison 7zip kmod bash cpio debhelper-compat libelf-dev binutils tar git wget dpkg libssl-dev
+
+
+      - name: 下载内核源码
+        run: |
+             git clone $ -b https://github.com/wu17481748/aston-mainline --depth 1 linux
+             
+      - name: 开始编译内核
+        run: |
+             cd ${{ github.workspace }}/linux
+             make -j$(nproc) deb-pkg ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig sm8550.config
+             cd ..
+             rm -rf *dbg*
+             cp ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ${{ github.workspace }}/boot/
+             cp ${{ github.workspace }}/linux/arch/arm64/boot/Image.gz ${{ github.workspace }}/
+             rm -rf linux-upstream*
+ 
+          
+
+
+      - name: 上传内核安装包
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          # Artifact name
+          name: mainline-linux-内核安装包-deb
+          path: ${{ github.workspace }}/*.deb
