@@ -26,10 +26,11 @@ jobs:
              cd ${{ github.workspace }}/linux
              make -j$(nproc) ARCH=arm64 defconfig sm8550.config
              make -j$(nproc) deb-pkg ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- 2> warnings.log
-             cd ..
+             cd ${{ github.workspace }}
              rm -rf *dbg*
-             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ${{ github.workspace }}/boot/
-             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/Image.gz ${{ github.workspace }}/
+             mkdir boot
+             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/dts/qcom/*sm8550*.dtb ./boot/
+             cp -a ${{ github.workspace }}/linux/arch/arm64/boot/Image.gz ./boot/
              rm -rf linux-upstream*
  
           
